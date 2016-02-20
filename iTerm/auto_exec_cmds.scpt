@@ -1,6 +1,6 @@
 -- Generic iTerm task executor
 --
--- Usage: Modifies the three variables with the one you like :)
+-- Usage: Modifies the three variables the the one you like :)
 --
 -- Variables:
 --
@@ -14,19 +14,20 @@
 -- Example for multiple commands in one line: grunt clean;grunt build; node server;
 
 set session_name to "grunt"
-set exec_path to "~/Projects/MyProject"
+set exec_path to "~/Projects/imagys"
 set commands to "grunt"
 
 tell application "iTerm"
 	tell the current terminal
-		select session_name
-		tell the current session
-			set cur_name to get name
-			if cur_name contains session_name then
-				write text commands
-				return
-			end if
-		end tell
+		repeat with s in sessions
+			tell s
+				set s_name to get name
+				if s_name contains session_name then
+					write text commands
+					return
+				end if
+			end tell
+		end repeat
 		
 		launch session "Default Session"
 		tell the last session
